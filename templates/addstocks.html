@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block nav %}
+{% if user  %}
+    {% if user.user_type=="Manager" %}
+      <li class="nav-item nav2 ms-4 ps-3">
+        <a class="nav-link text-dark" href="{{url_for('user_list')}}">User List</a>
+       </li>
+    {% endif %}
+<li class="nav-item nav2 ms-4 ps-3">
+    <a class="nav-link text-dark" href={{url_for("user_settings")}} >Settings</a>
+</li>
+<li class="nav-item nav2 ms-4 ps-3">
+  <a class="nav-link text-dark" href={{url_for("create_order")}}> Order</a>
+</li>
+<li class="nav-item nav2 ms-4 ps-3">
+    <a class="nav-link text-dark" href={{url_for("logout")}}>Logout</a>
+</li>
+{% endif %}
+{% endblock %}
+{% block body %}
+    <div class="container-fluid text-center mt-5">
+        {%for message in get_flashed_messages()%}
+        <div class="text-center alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{message}}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {%endfor%}
+        <h1 class="text-center ms-5 mt-4 p-3"> Add New Item</h1>
+        <div class="ms-3 text-center">
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <form class="row g-3" method="POST">
+                        {{form.hidden_tag()}}
+                        <div class="col-md-4 ">
+                          <label for="validationDefault01" class="form-label">Item Name</label>
+                          {{form.name(class_="form-control")}}
+                        </div>
+                        <div class="col-md-4">
+                          <label for="validationDefault02" class="form-label">Brand Name</label>
+                          {{form.brand_name(class_="form-control")}}
+                        </div>
+                        <div class="col-md-4">
+                          <label for="validationDefaultUsername" class="form-label">Price</label>
+                          <div class="input-group">
+                            <span class="input-group-text" id="inputGroupPrepend2">$</span>
+                            {{form.price(class_="form-control")}}
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <label for="validationDefault03" class="form-label">Stock</label>
+                          {{form.stock(class_="form-control")}}
+                        </div>
+                        <div class="col-md-4">
+                            <label for="validationDefault03" class="form-label">Quantity</label>
+                            {{form.quantity(class_="form-control")}}
+                        </div>
+                          <div class="col-md-4">
+                            <label for="validationDefault03" class="form-label">Expiry</label>
+                            {{form.expiry(class_="form-control")}}
+                          </div>                    
+                        <div class="col-12 ">
+                            {{form.submit(class_="btn btn-lg btn-primary")}}
+                        </div>
+                      </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+</html>

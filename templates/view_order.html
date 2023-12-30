@@ -1,0 +1,64 @@
+{% extends "base.html"%}
+{% block nav %}
+{% if user %}
+{% if user.user_type=="Manager" %}
+<li class="nav-item nav2 ms-4 ps-3">
+    <a class="nav-link text-dark" href="{{url_for('user_list')}}">User List</a>
+
+</li>
+{% endif %}
+<li class="nav-item nav2 ms-4 ps-3">
+    <a class="nav-link text-dark" href={{url_for("user_settings")}}>Settings</a>
+</li>
+<li class="nav-item nav2 ms-4 ps-3">
+    <a class="nav-link text-dark" href={{url_for("create_order")}}> Order</a>
+</li>
+<li class="nav-item nav2 ms-4 ps-3">
+    <a class="nav-link text-dark" href={{url_for("logout")}}>Logout</a>
+</li>
+{% endif %}
+{% endblock %}
+{% block body %}
+<body>
+    <div class="container-fluid mt-5 pe-3 ps-3 me-2 ms-1">
+        <h1 class=" text-center mb-4 mx-auto">View Order</h1>
+        <div class="row">
+            <div class="col">
+                {%for message in get_flashed_messages()%}
+                <div class="text-center alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>{{message}}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {%endfor%}
+                <table
+                    class="text-center table table-bordered border border-dark-subtle  table-responsive table-success table-striped table-group-divider">
+                    <tbody class="table-group-divider">
+                        <thead>
+                            <tr>
+                                <th scope="col">Item Name</th>
+                                <th scope="col">Brand Name</th>
+                                <th scope="col">Quanity</th>
+
+                            </tr>
+                        </thead>
+                        {% for item in order_item %}
+                            <tr>
+                                <td class="item_name">{{item.item_name}}</td>
+                                <td class="brand_name">{{item.brand_name}}</td> 
+                                <td class="brand_name quant" contenteditable="true">{{item.quantity}}</td> 
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% if user.user_type=="Manager" %}
+            <a class="btn btn-lg btn-success " href="{{url_for('order_status',id=order.id,query_param='Approved')}}">Approve</a>
+            <a class="btn btn-lg btn-danger " href="{{url_for('order_status',id=order.id,query_param='Deny')}}">Deny</a>
+            <a class="btn btn-lg btn-info text-white " href="{{url_for('order_list',id=0)}}" >Order List</a>
+        {% endif %}
+    </div>
+    <script src="/static/js/create_order.js"></script>
+    </div>
+</body>
+{% endblock %}

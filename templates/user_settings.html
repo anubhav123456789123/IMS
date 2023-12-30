@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block nav %}
+{% if user %}
+{% if user.user_type=="Manager" %}
+<li class="nav-item nav2 ms-4 ps-3">
+    <a class="nav-link text-dark" href="{{url_for('user_list')}}">User List</a>
+
+</li>
+{% endif %}
+<li class="nav-item nav2 ms-4 ps-3">
+    <a class="nav-link text-dark" href={{url_for("user_settings")}}>Settings</a>
+</li>
+<li class="nav-item nav2 ms-4 ps-3">
+    <a class="nav-link text-dark" href={{url_for("create_order")}}> Order</a>
+</li>
+<li class="nav-item nav2 ms-4 ps-3">
+    <a class="nav-link text-dark" href={{url_for("logout")}}>Logout</a>
+</li>
+{% endif %}
+{% endblock %}
+{% block body %}
+<div class="row mb-3 mt-5">
+    <div class="col-md-6 col-lg-4 mx-auto mb-3">
+        <div class="d-flex justify-content-center p-3">
+            <div class="text-center">
+                <h1 class="mt-3">Settings</h1>
+                <div class="container mt-5">
+                    {%for message in get_flashed_messages()%}
+                    <div class="text-center alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{message}}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {%endfor%}
+                    <div class="card mb-3 "style="width: 34rem;" >
+                        <div class="card-body text-center">
+                            <div class="m-1 p-1">
+                                <p class="fs-3">Name: {{user.first_name}} {{user.last_name}} </p>
+                            </div>
+                            <div class="m-1 p-1">
+                                <p class="fs-4" >Email: {{user.email}}</p>
+                            </div>
+                            <form action="" class="mt-3 p-4" method="POST">
+                                {{form.hidden_tag()}}
+                                <div class="form-floating mb-3">
+                                    {{form.new_password(class_="form-control ps-5 pe-5" ,id_="floatingInput")}}
+                                    {{form.new_password.label(for="floatingInput")}}
+                                </div>
+                                <div class="form-floating mb-3">
+                                    {{form.confrim_password(class_="form-control ps-5 pe-5", id_="floatingInput")}}
+                                    {{form.confrim_password.label(for="floatingInput")}}
+                                </div>
+                                <div class="mt-4">
+                                    {{form.submit(class_="btn pe-4 ps-4 m-2 btn-lg btn-primary")}}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
