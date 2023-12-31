@@ -13,14 +13,14 @@ from functions.functions import gen_order_id
 from dotenv import load_dotenv
 import os
 app = Flask(__name__,template_folder="templates")
-
+load_dotenv()
 SECRET_KEY = os.environ.get("secret_key")
 user_name = os.environ.get("user_name")
 password = os.environ.get("password")
 
 
-app.config["SECRET_KEY"]=SECRET_KEY
-app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{user_name}:{password}@localhost:5432/inventory'
+app.config["SECRET_KEY"]=os.environ.get("secret_key")
+app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{os.environ.get("user_name")}:{os.environ.get("password")}@{os.environ.get("db_host")}:{os.environ.get("db_port")}/{os.environ.get("db_name")}'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 csrf = CORS(app)
